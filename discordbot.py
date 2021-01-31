@@ -1,5 +1,6 @@
 #while True:
 #    print("hey")
+from wakeonlan import send_magic_packet
 import discord
 print(discord.__version__)
 from random import randrange
@@ -251,6 +252,16 @@ async def help(ctx,arg=None):
         await ctx.send("```To use type 'help *command*'\nI will help you with that command.```")
     elif arg == "syntax":
         await ctx.send("```*text* = An optional argument.\n**text** = A required argument.\n... = A string of any length.```")
+
+
+async def send_wol():
+    send_magic_packet("2C-F0-5D-72-4E-A9")
+
+@client.command()
+async def wake(ctx):
+    if ctx.author.id == 236949806386380801:
+        print("waking computer")
+        await send_wol()
 
 #shutsdown the bot
 @client.command()
