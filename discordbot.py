@@ -58,7 +58,8 @@ insults = ["cuck","weeb","liberal. Prepare to be roasted with FACTS and LOGIC",\
            "retard","absolute muffin","imbecile",\
            "literal dried piece of shit on the bottom of my shoe","cunt","scallywag",\
            "dumbass","boomer","republican","troglodyte",\
-           "soggy white bread that's been left out for a few days","netherwart"]
+           "soggy white bread that's been left out for a few days","netherwart",\
+           "coward with paper hands","smelly boi"]
 
 
 #10% chance to play random sound clip when somebody joins a voice channel, if they previously have not been in a voice channel
@@ -106,6 +107,12 @@ def drop_an_f(message):
     chat = message.find("chat")
     return drop < f < chat and drop != -1 and f != -1 and chat != -1
 
+def gme_mention(message):
+    gme = message.find("gme")
+    gamestop = message.find("gamestop")
+    game_stop = message.find("game stop")
+    return gme != -1 or gamestop != -1 or game_stop != -1
+    
 async def custom_process(ctx,message):
     print(message)
 
@@ -123,9 +130,18 @@ async def on_message(message):
     await client.process_commands(message)
     message.content = message.content.lower()
     if (message.content.find("testbot") != -1 or message.content.find("<@416768458122985473>") != -1) and not message.author.bot:
-        await message.channel.send("TestBot is a cuck")
+        await message.channel.send("TestBot is a {}".format(insults[randrange(len(insults))]))
     elif drop_an_f(message.content):
         await message.channel.send("F")
+    elif gme_mention(message):
+        for i in range((len(client.emojis))):
+            if client.emojis[i].name == "gem":
+                await message.add_reaction(client.emojis[i])
+                break
+        for i in range((len(client.emojis))):
+            if client.emojis[i].name == "open_hands":
+                await message.add_reaction(client.emojis[i])
+                break
     elif message.content.strip() == "e" and not message.author.bot:
         for i in range(len(client.emojis)):
             if client.emojis[i].name == "Clout":
@@ -144,7 +160,7 @@ async def daddy(ctx,*, arg):
 @client.command()
 async def insult(ctx):
     global insults
-    await ctx.send("{} is a {}".format(ctx.author,insults[randrange(len(insults))]))
+    await ctx.send("{} is a {}".format(ctx.author[:-5],insults[randrange(len(insults))]))
 
 #The mock command which calls mockify to actually modify the text.
 #Deletes the message that contains the command that triggered this call.
