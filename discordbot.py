@@ -322,7 +322,7 @@ async def error(ctx):
 try:
     t = threading.Thread(target=call_blaze, args=[client])
     t.start()
-    client.loop.run_until_complete(client.start("<ADD_TOKEN_HERE>"))
+    client.loop.run_until_complete(client.start(open("token","r").readline().strip()))
 except Exception as e:
     log_error(e)
     t.join()
