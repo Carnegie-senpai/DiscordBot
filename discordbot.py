@@ -169,6 +169,7 @@ async def on_message(message):
     #Shitty puns
     await message_on_string(message,r"exactly","Who's Zack Lee?")
     await message_on_string(message,r'(yeah.*sure)|(yea.*sure)',"Who's Yasher?")
+    await message_on_string(message,r"actually","Who's Ashley?")
     print(message.content)
 
 # Repeated back whatever the original message said
