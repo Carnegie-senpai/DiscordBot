@@ -108,6 +108,10 @@ async def blaze_it(l):
             asyncio.run_coroutine_threadsafe(discord.utils.get(
                 client.get_all_channels(), name="general").send("Blaze it"), client.loop)
             time.sleep(2)
+        elif (t.tm_hour == 20 and t.tm_min == 0 and t.tm_sec == 0):
+            asyncio.run_coroutine_threadsafe(discord.utils.get(
+                client.get_all_channels(), name="general").send("<@236949806386380801> you're a piece of shit, do something about it"), client.loop)
+            time.sleep(2)
         time.sleep(0.5)
 
 
@@ -332,7 +336,8 @@ async def error(ctx):
 try:
     t = threading.Thread(target=call_blaze, args=[client])
     t.start()
-    client.loop.run_until_complete(client.start(open("token","r").readline().strip()))
+    client.loop.run_until_complete(client.start(
+        open("token", "r").readline().strip()))
 except Exception as e:
     log_error(e)
     t.join()
