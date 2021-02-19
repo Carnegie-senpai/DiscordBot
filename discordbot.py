@@ -164,7 +164,7 @@ async def on_message(message):
     if (message.content.find("testbot") != -1 or message.content.find("<@416768458122985473>") != -1) and not message.author.bot:
         await message.channel.send("TestBot is a {}".format(insults[randrange(len(insults))]))
     await emoji_on_string(message,r"(.*gme.*)|(.*gamestop.*)|(.*game stop.*)","💎👐")
-    await emoji_on_string(message,r"e","<:Clout:333845251511025684>")
+    await emoji_on_string(message,r"^e$","<:Clout:333845251511025684>")
     await message_on_string(message,r'drop.*f.*chat',"F")
     #Shitty puns
     await message_on_string(message,r"exactly","Who's Zack Lee?")
