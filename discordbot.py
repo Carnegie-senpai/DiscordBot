@@ -12,6 +12,7 @@ import threading
 from random import randrange
 from wakeonlan import send_magic_packet
 import discord
+import re
 print(discord.__version__)
 
 
@@ -123,6 +124,20 @@ def gme_mention(message):
     game_stop = message.find("game stop")
     return gme != -1 or gamestop != -1 or game_stop != -1
 
+'''
+Message is the message object, trigger is a regex expression, response is a string,
+'''
+async def message_on_string(message,trigger,response):
+    if (re.search(trigger,message.content)):
+        await message.channel.send(response)
+
+async def emoji_on_string(message,trigger,emoji):
+    if (re.search(trigger,message.content)):
+        if (len(emoji) > 1 and not re.search(r"<:.*:.*>",emoji) ):
+            for i in emoji:
+                await message.add_reaction(i)
+        else:
+            await message.add_reaction(emoji)
 
 async def custom_process(ctx, message):
     print(message)
@@ -144,18 +159,13 @@ async def on_message(message):
     message.content = message.content.lower()
     if (message.content.find("testbot") != -1 or message.content.find("<@416768458122985473>") != -1) and not message.author.bot:
         await message.channel.send("TestBot is a {}".format(insults[randrange(len(insults))]))
-    elif drop_an_f(message.content):
-        await message.channel.send("F")
-    elif gme_mention(message.content):
-        await message.add_reaction("💎")
-        await message.add_reaction("👐")
-    elif message.content.strip() == "e" and not message.author.bot:
-        for i in range(len(client.emojis)):
-            if client.emojis[i].name == "Clout":
-                await message.add_reaction(client.emojis[i])
-                break
-    else:
-        print(message.content)
+    await emoji_on_string(message,r"(.*gme.*)|(.*gamestop.*)|(.*game stop.*)","💎👐")
+    await emoji_on_string(message,r"e","<:Clout:333845251511025684>")
+    await message_on_string(message,r'drop.*f.*chat',"F")
+    #Shitty puns
+    await message_on_string(message,r"exactly","Who's Zack Lee?")
+    await message_on_string(message,r'(yeah.*sure)|(yea.*sure)',"Who's Yasher?")
+    print(message.content)
 
 # Repeated back whatever the original message said
 
@@ -272,7 +282,7 @@ async def strat(ctx, arg=None, arg2=None, arg3=None):
 async def help(ctx, arg=None):
     print(arg)
     if arg == None:
-        await ctx.send("```Check your capitlization first! It matters!\ndaddy: I'll repeat back what you say to you\ninsult: I'll insult you\nmock: I'll mock whatever you say\nstrat: Used for strat roulette\nhelp: I'll help you. If you need more specific help with a command type 'uwu help *command*', or if you want help understanding my syntax type 'uwu help syntax'```")
+        await ctx.send("```Check your capitalization first! It matters!\ndaddy: I'll repeat back what you say to you\ninsult: I'll insult you\nmock: I'll mock whatever you say\nstrat: Used for strat roulette\nhelp: I'll help you. If you need more specific help with a command type 'uwu help *command*', or if you want help understanding my syntax type 'uwu help syntax'```")
     elif arg == "insult":
         await ctx.send("```To use type 'uwu insult'\nI will then send you a random insult.```")
     elif arg == "daddy":
