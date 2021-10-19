@@ -21,7 +21,7 @@ classes:list = sorted(list(load(classes_file)))
 
 vector = load(vector_file)
 model = SimpleNeuralNetwork(28659, 3500, len(classes))
-model.load_state_dict(torch.load(model_file))
+model.load_state_dict(torch.load(model_file,map_location=torch.device(device)))
 
 
 def convert_to_tensor(sparse_csr_matrix):
