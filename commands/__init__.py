@@ -6,6 +6,7 @@ from commands.insult import insult
 from commands.mock import mock
 from commands.shutdown import shutdown
 from commands.wake_on_lan import wake
+from commands.music import play#, clear, queue, remove, stop
 tvf = exists("./assets/training_vector_file")
 tmo = exists("./assets/trained_model_output")
 pg = exists("./assets/pickled_genres")
